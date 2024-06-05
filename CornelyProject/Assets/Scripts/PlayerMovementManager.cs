@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovementManager : Singleton<PlayerMovementManager>
@@ -13,6 +11,7 @@ public class PlayerMovementManager : Singleton<PlayerMovementManager>
 
     [SerializeField] private float _movementSpeed = 5;
     [SerializeField] private float _rotationSpeed = .075f;
+    [SerializeField] private float _gravity = 9.83f;
 
     private void OnEnable() => _controls.Gameplay.Enable();
 
@@ -34,7 +33,7 @@ public class PlayerMovementManager : Singleton<PlayerMovementManager>
     {
         if (_mouseLeftClick)
         {
-            _characterController.Move(new Vector3(_mouseDirection.x,0,_mouseDirection.y) * _movementSpeed * Time.deltaTime);
+            _characterController.Move(new Vector3(_mouseDirection.x, -_gravity, _mouseDirection.y) * _movementSpeed * Time.deltaTime);
         }
 
         _animator.SetFloat("InputX", Mathf.MoveTowards(_animator.GetFloat("InputX"), _mouseDirection.x, _rotationSpeed));
