@@ -7,6 +7,7 @@ public class ThreadManager : MonoBehaviour
 
     private LineRenderer _lineRenderer;
     private List<Vector3> _points = new List<Vector3>();
+    private List<LineRenderer> _threads = new List<LineRenderer>();
 
     [SerializeField] private float _distanceBetweenPoints = .1f;
     [SerializeField] private GameObject _thread;
@@ -26,6 +27,7 @@ public class ThreadManager : MonoBehaviour
     {
         _lineRenderer = Instantiate(_thread).GetComponent<LineRenderer>();
         _points.Clear();
+        _threads.Add(_lineRenderer);
     }
 
     public void AddPoint(Vector3 newPoint)
@@ -36,5 +38,14 @@ public class ThreadManager : MonoBehaviour
             _lineRenderer.positionCount = _points.Count;
             _lineRenderer.SetPositions(_points.ToArray());
         }
+    }
+
+    public void ClearAllThreads()
+    {
+        foreach (LineRenderer line in _threads)
+        {
+            Destroy(line.gameObject);
+        }
+        _threads.Clear();
     }
 }

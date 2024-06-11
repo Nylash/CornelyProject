@@ -42,4 +42,9 @@ public class PlayerMovementWithTransform : MonoBehaviour
             _mousePosition = ray.GetPoint(distance);
         }
     }
+
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
 }
