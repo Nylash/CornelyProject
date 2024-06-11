@@ -1,26 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ThreadManager : Singleton<ThreadManager>
+public class ThreadManager : MonoBehaviour
 {
-    private Transform _playerTransform;
+    private Controls _controls;
+
     private LineRenderer _lineRenderer;
     private List<Vector3> _points = new List<Vector3>();
 
     [SerializeField] private float _distanceBetweenPoints = .1f;
+    [SerializeField] private GameObject _thread;
 
-    private void Start()
+    private void OnEnable() => _controls.Gameplay.Enable();
+
+    private void OnDisable() => _controls.Gameplay.Disable();
+
+    private void Awake()
     {
-        _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        _lineRenderer = GetComponent<LineRenderer>();
+        _controls = new Controls();
+
+        _controls.Gameplay.MouseLeft.started += ctx => StartNewThread();
     }
 
-    private void Update()
+    private void StartNewThread()
     {
-        AddPoint(_playerTransform.position);
+        _lineRenderer = Instantiate(_thread).GetComponent<LineRenderer>();
+        _points.Clear();
     }
 
-    private void AddPoint(Vector3 newPoint)
+    public void AddPoint(Vector3 newPoint)
     {
         if(_points.Count ==  0 || Vector3.Distance(_points[_points.Count - 1], newPoint) > _distanceBetweenPoints)
         {
