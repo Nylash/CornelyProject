@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovementWithTransform : MonoBehaviour
 {
@@ -43,8 +44,8 @@ public class PlayerMovementWithTransform : MonoBehaviour
         }
     }
 
-    public void QuitApplication()
+    public void LoadMenu()
     {
-        Application.Quit();
+        SceneManager.LoadScene("Menu");
     }
 }
